@@ -1,5 +1,6 @@
 package live.midreamsheep.optb.keyboard;
 
+import live.midreamsheep.optb.execute.ExecuteHandlerInter;
 import live.midreamsheep.optb.execute.ExecutesController;
 import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
@@ -24,7 +25,10 @@ public class Listener implements NativeKeyListener {
         keyEvents.sort(Comparator.comparingInt(NativeKeyEvent::getKeyCode));
         StringBuilder sb = new StringBuilder();
         keyEvents.forEach(k->sb.append(k.getKeyCode()));
-        Optional.ofNullable(ExecutesController.getExecuteHandlers(sb.toString())).orElse(()->{}).execute();
+        ExecuteHandlerInter handlers = ExecutesController.getExecuteHandlers(sb.toString());
+        if(handlers!=null){
+            handlers.execute();
+        }
     }
 
     @Override

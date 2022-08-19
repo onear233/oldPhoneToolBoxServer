@@ -6,20 +6,25 @@ public class WindowsBean {
     private String cpuCount;
     private String memoryUsage;
     private String memoryTotal;
+    private String numberOfProcesses;
+
 
     @Override
     public String toString() {
-        return "WindowsBean{" +
-                "windowTitle='" + windowTitle + '\'' +
-                ", cpuUsage='" + cpuUsage + '\'' +
-                ", cpuCount='" + cpuCount + '\'' +
-                ", memoryUsage='" + memoryUsage + '\'' +
-                ", memoryTotal='" + memoryTotal + '\'' +
-                ", numberOfProcesses='" + numberOfProcesses + '\'' +
-                '}';
+        return windowTitle + "," + cpuUsage + "," + cpuCount + "," + memoryUsage + "," + memoryTotal+ "," + numberOfProcesses;
     }
 
-    private String numberOfProcesses;
+    public static WindowsBean build(String in){
+        String[] arr = in.split(",");
+        WindowsBean bean = new WindowsBean();
+        bean.setWindowTitle(arr[0]);
+        bean.setCpuUsage(arr[1]);
+        bean.setCpuCount(arr[2]);
+        bean.setMemoryUsage(arr[3]);
+        bean.setMemoryTotal(arr[4]);
+        bean.setNumberOfProcesses(arr[5]);
+        return bean;
+    }
 
     public String getWindowTitle() {
         return windowTitle;

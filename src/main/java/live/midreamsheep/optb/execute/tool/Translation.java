@@ -33,4 +33,9 @@ public class Translation implements ExecuteHandlerInter {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public void close() {
+
+    }
 }

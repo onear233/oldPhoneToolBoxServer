@@ -27,6 +27,7 @@
             <artifactId>jnativehook</artifactId>
             <version>2.1.0</version>
         </dependency>
+        <!--监控系统信息-->
         <dependency>
             <groupId>com.github.oshi</groupId>
             <artifactId>oshi-core</artifactId>
