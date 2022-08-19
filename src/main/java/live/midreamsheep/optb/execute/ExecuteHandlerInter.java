@@ -1,5 +1,5 @@
 package live.midreamsheep.optb.execute;
 
-public interface ExecuteHandlerInter {
+public  interface ExecuteHandlerInter  {
     void execute();
 }

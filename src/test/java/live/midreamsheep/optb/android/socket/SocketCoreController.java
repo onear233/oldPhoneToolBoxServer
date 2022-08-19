@@ -32,9 +32,6 @@ public class SocketCoreController {
             client.read(metaData);
             System.out.println("读取成功");
             byte[] array = getMetaDataBytes(metaData);
-            for (byte b : array) {
-                System.out.println(b);
-            }
             //获取携带数据长度
             ByteBuffer byteBuffer = ByteBuffer.allocate(array[0] << 8 | array[1]);
             client.read(byteBuffer);
