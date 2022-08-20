@@ -17,6 +17,9 @@ public class Translation implements ExecuteHandlerInter {
         String content = null;
         try {
             content = getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor).toString();
+            if(content==null||content.equals("")){
+                return;
+            }
             System.out.println(content);
             //获取文本长度 2个字节形式表示
             byte[] data = content.getBytes();
