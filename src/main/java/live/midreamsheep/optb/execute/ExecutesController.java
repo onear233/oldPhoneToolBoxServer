@@ -2,6 +2,8 @@ package live.midreamsheep.optb.execute;
 
 import live.midreamsheep.optb.execute.back.BackHandler;
 import live.midreamsheep.optb.execute.monitor.ComputerMonitor;
+import live.midreamsheep.optb.execute.task.MonitorTasks;
+import live.midreamsheep.optb.execute.task.SubmitATask;
 import live.midreamsheep.optb.execute.tool.Translation;
 
 import java.util.HashMap;
@@ -19,6 +21,10 @@ public class ExecutesController {
         executeHandlers.put("2948",new BackHandler());
         //启动监听功能 ctrl+m
         executeHandlers.put("2950",new ComputerMonitor());
+        //提交任务 ctrl+enter
+        executeHandlers.put("2829",new SubmitATask());
+        //观察任务 ctrl+i
+        executeHandlers.put("2329",new MonitorTasks());
     }
 
     public static ExecuteHandlerInter getExecuteHandlers(String keyCodeHash) {
