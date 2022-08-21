@@ -2,6 +2,7 @@ package live.midreamsheep.optb.execute;
 
 import live.midreamsheep.optb.execute.back.BackHandler;
 import live.midreamsheep.optb.execute.monitor.ComputerMonitor;
+import live.midreamsheep.optb.execute.task.GetFileFromPhone;
 import live.midreamsheep.optb.execute.task.MonitorTasks;
 import live.midreamsheep.optb.execute.task.SubmitATask;
 import live.midreamsheep.optb.execute.tool.Translation;
@@ -25,6 +26,8 @@ public class ExecutesController {
         executeHandlers.put("2829",new SubmitATask());
         //观察任务 ctrl+i
         executeHandlers.put("2329",new MonitorTasks());
+        //获取文件 ctrl+g
+        executeHandlers.put("2934",new GetFileFromPhone());
     }
 
     public static ExecuteHandlerInter getExecuteHandlers(String keyCodeHash) {

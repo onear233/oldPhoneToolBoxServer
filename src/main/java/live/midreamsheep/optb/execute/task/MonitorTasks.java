@@ -18,7 +18,5 @@ public class MonitorTasks implements ExecuteHandlerInter {
     }
 
     @Override
-    public void close() {
-
-    }
+    public void close() {}
 }
