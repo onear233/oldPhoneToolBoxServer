@@ -15,9 +15,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ApplicationStarter {
-    public static void main(String[] args) throws NativeHookException {
+    public static void main(String[] args) throws NativeHookException, IOException {
         //读取配置文件
-        new ConfigTool().readConfig(SIO.inputString(Objects.requireNonNull(ApplicationStarter.class.getClassLoader().getResource("fileRootPath.txt")).getFile()));
+        new ConfigTool().readConfig(SIO.inputStringByStream(Objects.requireNonNull(ApplicationStarter.class.getClassLoader().getResourceAsStream("fileRootPath.txt"))));
         //建立连接 并注册为常量
         connect();
         //启动监听
