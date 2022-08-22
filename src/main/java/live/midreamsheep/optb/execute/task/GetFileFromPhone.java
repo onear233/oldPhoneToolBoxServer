@@ -70,7 +70,7 @@ public class GetFileFromPhone implements ExecuteHandlerInter {
         ByteBuffer byteBuffer = ByteBuffer.allocate(2);
         socket.read(byteBuffer);
         byte[] array = byteBuffer.array();
-        byteBuffer = ByteBuffer.allocate(array[0] << 8 | array[1]);
+        byteBuffer = ByteBuffer.allocate((array[0] & 0xFF) << 8 | (array[1] & 0xFF));
         socket.read(byteBuffer);
         array = byteBuffer.array();
         String fileName = new String(array);

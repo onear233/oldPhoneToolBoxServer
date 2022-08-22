@@ -23,13 +23,13 @@ public class Translation implements ExecuteHandlerInter {
             System.out.println(content);
             //获取文本长度 2个字节形式表示
             byte[] data = content.getBytes();
-            byte[] shortBuf = new byte[3];
-            for (int i = 0; i < 2; i++) {
-                int offset = (shortBuf.length - 2 - i) * 8;
-                shortBuf[i] = (byte) (((short)data.length >>> offset) & 0xff);
-            }
+            byte[] shortBuf = new byte[2];
+            //data的长度转byte
+            shortBuf[0] = (byte) (data.length >> 8);
+            shortBuf[1] = (byte) (data.length);
             //传输元数据
             SocketChannelStatic.socketChannel.write(ByteBuffer.wrap(shortBuf));
+            SocketChannelStatic.socketChannel.write(ByteBuffer.wrap(new byte[]{0x00}));
             //传输文本
             SocketChannelStatic.socketChannel.write(ByteBuffer.wrap(data));
         } catch (UnsupportedFlavorException | IOException e) {
