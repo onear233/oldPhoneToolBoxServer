@@ -14,7 +14,7 @@ public class Translation implements ExecuteHandlerInter {
     @Override
     public void execute() {
         //获取剪贴板的内容
-        String content = null;
+        String content;
         try {
             content = getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor).toString();
             if(content==null||content.equals("")){

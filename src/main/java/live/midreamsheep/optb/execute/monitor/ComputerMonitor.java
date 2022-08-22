@@ -35,7 +35,7 @@ public class ComputerMonitor implements ExecuteHandlerInter {
                 throw new RuntimeException(e);
             }
             System.out.println("连接建立");
-            String content = "";
+            String content;
             while (true) {
                 content = WindowMonitor.getWindowsBean().toString();
                 System.out.println(content);

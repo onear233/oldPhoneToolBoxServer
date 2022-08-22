@@ -78,7 +78,9 @@ public class GetFileFromPhone implements ExecuteHandlerInter {
         byteBuffer = ByteBuffer.allocate(1024);
         //获取输出流
         if(!SocketConfig.DOWNLOAD_FILE.exists()){
-            SocketConfig.DOWNLOAD_FILE.mkdirs();
+            if(!SocketConfig.DOWNLOAD_FILE.mkdirs()){
+                return;
+            }
         }
         try (OutputStream os = new FileOutputStream(new File(SocketConfig.DOWNLOAD_FILE,fileName))) {
             while (socket.read(byteBuffer) != -1) {

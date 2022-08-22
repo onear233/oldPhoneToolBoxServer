@@ -11,7 +11,7 @@ import static java.awt.Toolkit.getDefaultToolkit;
 public class SubmitATask implements ExecuteHandlerInter {
     @Override
     public void execute() {
-        String content = null;
+        String content;
         try {
             content = getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor).toString();
             if(content==null||content.equals("")){

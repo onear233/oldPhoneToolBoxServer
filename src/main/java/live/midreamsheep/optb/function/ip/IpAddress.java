@@ -25,6 +25,7 @@ public class IpAddress {
                 }
             }
         } catch (Exception e) {
+            e.printStackTrace();
         }
         return "";
     }
