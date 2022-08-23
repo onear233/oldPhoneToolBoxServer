@@ -1,7 +1,7 @@
 package live.midreamsheep.optb.keyboard;
 
-import live.midreamsheep.optb.execute.ExecuteHandlerInter;
-import live.midreamsheep.optb.execute.ExecutesController;
+import live.midreamsheep.optb.executes.ExecuteHandlerInter;
+import live.midreamsheep.optb.executes.ExecutesController;
 import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
 
