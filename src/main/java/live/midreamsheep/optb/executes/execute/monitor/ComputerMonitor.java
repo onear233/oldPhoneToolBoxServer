@@ -5,7 +5,7 @@ import live.midreamsheep.optb.data.SocketConfig;
 import live.midreamsheep.optb.executes.ExecuteHandlerInter;
 import live.midreamsheep.optb.executes.ExecutesController;
 import live.midreamsheep.optb.function.window.api.WindowMonitor;
-import live.midreamsheep.optb.scanner.annotation.handler.ExecuteHandler;
+import live.midreamsheep.frame.scanner.annotation.handler.ExecuteHandler;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -34,13 +34,13 @@ public class ComputerMonitor implements ExecuteHandlerInter {
                 //建立通道
                 channel = SocketChannel.open(new InetSocketAddress(SocketConfig.IP,SocketConfig.MONITOR_PORT));
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
+                return;
             }
             System.out.println("连接建立");
             String content;
             while (true) {
                 content = WindowMonitor.getWindowsBean().toString();
-                System.out.println(content);
                 //获取文本长度 2个字节形式表示
                 byte[] data = content.getBytes();
                 byte[] shortBuf = new byte[2];
@@ -51,20 +51,17 @@ public class ComputerMonitor implements ExecuteHandlerInter {
                 //传输元数据
                 try {
                     channel.write(ByteBuffer.wrap(shortBuf));
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                try {
                     //传输文本
                     channel.write(ByteBuffer.wrap(data));
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    e.printStackTrace();
+                    return;
                 }
                 if(!ExecutesController.isRunning) {
                     try {
                         channel.close();
                     } catch (IOException e) {
-                        throw new RuntimeException(e);
+                        e.printStackTrace();
                     }
                     break;
                 }

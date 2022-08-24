@@ -1,8 +1,9 @@
 package live.midreamsheep.optb.executes.execute.task;
 
+import live.midreamsheep.optb.ApplicationStarter;
 import live.midreamsheep.optb.SocketChannelStatic;
 import live.midreamsheep.optb.executes.ExecuteHandlerInter;
-import live.midreamsheep.optb.scanner.annotation.handler.ExecuteHandler;
+import live.midreamsheep.frame.scanner.annotation.handler.ExecuteHandler;
 
 import java.awt.datatransfer.DataFlavor;
 import java.nio.ByteBuffer;
@@ -36,7 +37,8 @@ public class SubmitATask implements ExecuteHandlerInter {
             //传输文本
             SocketChannelStatic.socketChannel.write(ByteBuffer.wrap(data));
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            ApplicationStarter.tryConnect();
         }
     }
 

@@ -1,4 +1,4 @@
-package live.midreamsheep.optb.scanner.annotation.scan;
+package live.midreamsheep.frame.scanner.annotation.handler;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,6 +7,6 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface Scan {
+public @interface ExecuteHandler {
     String value();
 }

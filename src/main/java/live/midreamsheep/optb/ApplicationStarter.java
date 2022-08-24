@@ -4,7 +4,7 @@ import live.midreamsheep.optb.config.ConfigTool;
 import live.midreamsheep.optb.data.SocketConfig;
 import live.midreamsheep.optb.function.SIO;
 import live.midreamsheep.optb.keyboard.Listener;
-import live.midreamsheep.optb.scanner.annotation.scan.ScannerProcessor;
+import live.midreamsheep.frame.scanner.annotation.scan.ScannerProcessor;
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.NativeHookException;
 
@@ -17,6 +17,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ApplicationStarter {
+
+    public static boolean isFix = false;
+
     public static void starter(Class<?> config) throws IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, NativeHookException {
         //解析配置类
         parseConfigClass(config);
@@ -46,11 +49,16 @@ public class ApplicationStarter {
             try {
                 SocketChannelStatic.socketChannel = SocketChannel.open(new InetSocketAddress(SocketConfig.IP, SocketConfig.PORT));
                 if (SocketChannelStatic.socketChannel.isConnected()) {
+                    isFix = false;
                     break;
                 }
             } catch (IOException e) {
                 Logger.getLogger(ApplicationStarter.class.getName()).severe("连接建立失败 错误信息：" + e.getMessage());
             }
         }
+    }
+    public static void tryConnect(){
+        isFix = true;
+        connect();
     }
 }

@@ -1,6 +1,6 @@
 package live.midreamsheep.optb;
 
-import live.midreamsheep.optb.scanner.annotation.scan.Scan;
+import live.midreamsheep.frame.scanner.annotation.scan.Scan;
 
 @Scan("live.midreamsheep.optb.executes.execute")
 public class Starter {

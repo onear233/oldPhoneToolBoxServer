@@ -1,8 +1,9 @@
 package live.midreamsheep.optb.executes.execute.tool;
 
+import live.midreamsheep.optb.ApplicationStarter;
 import live.midreamsheep.optb.SocketChannelStatic;
 import live.midreamsheep.optb.executes.ExecuteHandlerInter;
-import live.midreamsheep.optb.scanner.annotation.handler.ExecuteHandler;
+import live.midreamsheep.frame.scanner.annotation.handler.ExecuteHandler;
 
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -22,7 +23,7 @@ public class Translation implements ExecuteHandlerInter {
             if(content==null||content.equals("")){
                 return;
             }
-            System.out.println(content);
+            System.out.println("    需要翻译的文本"+content);
             //获取文本长度 2个字节形式表示
             byte[] data = content.getBytes();
             byte[] shortBuf = new byte[3];
@@ -33,8 +34,10 @@ public class Translation implements ExecuteHandlerInter {
             SocketChannelStatic.socketChannel.write(ByteBuffer.wrap(shortBuf));
             //传输文本
             SocketChannelStatic.socketChannel.write(ByteBuffer.wrap(data));
+            System.out.println("    传输完毕");
         } catch (UnsupportedFlavorException | IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            ApplicationStarter.tryConnect();
         }
     }
 

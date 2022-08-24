@@ -1,10 +1,11 @@
 package live.midreamsheep.optb.executes.execute.task;
 
+import live.midreamsheep.optb.ApplicationStarter;
 import live.midreamsheep.optb.SocketChannelStatic;
 import live.midreamsheep.optb.data.SocketConfig;
 import live.midreamsheep.optb.executes.ExecuteHandlerInter;
 import live.midreamsheep.optb.function.ip.IpAddress;
-import live.midreamsheep.optb.scanner.annotation.handler.ExecuteHandler;
+import live.midreamsheep.frame.scanner.annotation.handler.ExecuteHandler;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -31,7 +32,8 @@ public class GetFileFromPhone implements ExecuteHandlerInter {
                 sendIpAddressToPhone(IpAddress.getIpAddress());
                 DownloadFile();
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
+                ApplicationStarter.tryConnect();
             }
         }).start();
     }
@@ -65,7 +67,8 @@ public class GetFileFromPhone implements ExecuteHandlerInter {
             }
             isRunning = false;
         }catch (IOException e){
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            ApplicationStarter.tryConnect();
         }
     }
     private void DownloadAFile(SocketChannel socket) throws IOException {
@@ -91,7 +94,8 @@ public class GetFileFromPhone implements ExecuteHandlerInter {
                 byteBuffer.clear();
             }
         }catch (IOException e){
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            ApplicationStarter.tryConnect();
         }
     }
 

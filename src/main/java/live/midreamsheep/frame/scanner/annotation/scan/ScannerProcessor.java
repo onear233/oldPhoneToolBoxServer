@@ -1,12 +1,15 @@
-package live.midreamsheep.optb.scanner.annotation.scan;
+package live.midreamsheep.frame.scanner.annotation.scan;
 
+import live.midreamsheep.optb.ApplicationStarter;
 import live.midreamsheep.optb.executes.ExecuteHandlerInter;
+import live.midreamsheep.optb.executes.ExecuteInit;
 import live.midreamsheep.optb.executes.ExecutesController;
-import live.midreamsheep.optb.scanner.annotation.handler.ExecuteHandler;
+import live.midreamsheep.frame.scanner.annotation.handler.ExecuteHandler;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Proxy;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
@@ -44,7 +47,7 @@ public class ScannerProcessor {
         if (url != null) {
             String type = url.getProtocol();
             if (type.equals("file")) {
-                fileNames = getClassNameByFile(url.getPath(), null, childPackage);
+                fileNames = getClassNameByFile(url.getPath(), null);
             } else if (type.equals("jar")) {
                 fileNames = getClassNameByJar(url.getPath(), childPackage);
             }
@@ -58,18 +61,15 @@ public class ScannerProcessor {
      * 从项目文件获取某包下所有类
      * @param filePath 文件路径
      * @param className 类名集合
-     * @param childPackage 是否遍历子包
      * @return 类的完整名称
      */
-    private static List<String> getClassNameByFile(String filePath, List<String> className, boolean childPackage) {
+    private static List<String> getClassNameByFile(String filePath, List<String> className) {
         List<String> myClassName = new ArrayList<>();
         File file = new File(filePath);
         File[] childFiles = file.listFiles();
         for (File childFile : Objects.requireNonNull(childFiles)) {
             if (childFile.isDirectory()) {
-                if (childPackage) {
-                    myClassName.addAll(getClassNameByFile(childFile.getPath(), myClassName, childPackage));
-                }
+                myClassName.addAll(getClassNameByFile(childFile.getPath(), myClassName));
             } else {
                 String childFilePath = childFile.getPath();
                 if (childFilePath.endsWith(".class")) {
@@ -90,7 +90,7 @@ public class ScannerProcessor {
      * @return 类的完整名称
      */
     private static List<String> getClassNameByJar(String jarPath, boolean childPackage) throws IOException {
-        List<String> myClassName = new ArrayList<String>();
+        List<String> myClassName = new ArrayList<>();
         String[] jarInfo = jarPath.split("!");
         String jarFilePath = jarInfo[0].substring(jarInfo[0].indexOf("/"));
         String packagePath = jarInfo[1].substring(1);
@@ -99,25 +99,27 @@ public class ScannerProcessor {
             while (entrys.hasMoreElements()) {
                 JarEntry jarEntry = entrys.nextElement();
                 String entryName = jarEntry.getName();
-                if (entryName.endsWith(".class")) {
-                    if (childPackage) {
-                        if (entryName.startsWith(packagePath)) {
-                            entryName = entryName.replace("/", ".").substring(0, entryName.lastIndexOf("."));
-                            myClassName.add(entryName);
-                        }
-                    } else {
-                        int index = entryName.lastIndexOf("/");
-                        String myPackagePath;
-                        if (index != -1) {
-                            myPackagePath = entryName.substring(0, index);
-                        } else {
-                            myPackagePath = entryName;
-                        }
-                        if (myPackagePath.equals(packagePath)) {
-                            entryName = entryName.replace("/", ".").substring(0, entryName.lastIndexOf("."));
-                            myClassName.add(entryName);
-                        }
+                if (!entryName.endsWith(".class")) {
+                    continue;
+                }
+                if (childPackage) {
+                    if (!entryName.startsWith(packagePath)) {
+                        continue;
                     }
+                    entryName = entryName.replace("/", ".").substring(0, entryName.lastIndexOf("."));
+                    myClassName.add(entryName);
+                    continue;
+                }
+                int index = entryName.lastIndexOf("/");
+                String myPackagePath;
+                if (index != -1) {
+                    myPackagePath = entryName.substring(0, index);
+                } else {
+                    myPackagePath = entryName;
+                }
+                if (myPackagePath.equals(packagePath)) {
+                    entryName = entryName.replace("/", ".").substring(0, entryName.lastIndexOf("."));
+                    myClassName.add(entryName);
                 }
             }
         } catch (Exception e) {
@@ -159,8 +161,20 @@ public class ScannerProcessor {
             System.err.println("类"+className+"没有实现ExecuteHandlerInter接口");
             System.exit(1);
         }
-        ExecuteHandlerInter o = (ExecuteHandlerInter) aClass.getDeclaredConstructor().newInstance();
-        String s = annotation.value();
-        ExecutesController.putExecuteHandlers(s,o);
+        String value = annotation.value();
+        Object o = aClass.getConstructor().newInstance();
+        Object proxyInstance = Proxy.newProxyInstance(aClass.getClassLoader(), aClass.getInterfaces(), (proxy, method, args) -> {
+            if(!ApplicationStarter.isFix) {
+                System.out.println("执行" + className + "的方法" + method.getName() + "开始 key是" + value);
+                Object invoke = method.invoke(o, args);
+                System.out.println("执行" + className + "的方法" + method.getName() + "结束 key是" + value);
+                return invoke;
+            }
+            return null;
+        });
+        if(o instanceof ExecuteInit init){
+            init.init(value, (ExecuteHandlerInter) proxyInstance);
+        }
+        ExecutesController.putExecuteHandlers(value, (ExecuteHandlerInter) proxyInstance);
     }
 }
