@@ -12,6 +12,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Proxy;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -47,9 +49,10 @@ public class ScannerProcessor {
         if (url != null) {
             String type = url.getProtocol();
             if (type.equals("file")) {
-                fileNames = getClassNameByFile(url.getPath(), null);
-            } else if (type.equals("jar")) {
-                fileNames = getClassNameByJar(url.getPath(), childPackage);
+                fileNames = getClassNameByFile(URLDecoder.decode(url.getPath(), StandardCharsets.UTF_8), null);
+            }
+            if (type.equals("jar")) {
+                fileNames = getClassNameByJar(URLDecoder.decode(url.getPath(), StandardCharsets.UTF_8), childPackage);
             }
         } else {
             fileNames = getClassNameByJars(((URLClassLoader) loader).getURLs(), packagePath, childPackage);
