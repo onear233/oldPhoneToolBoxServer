@@ -6,6 +6,8 @@ import live.midreamsheep.optb.executes.ExecuteHandlerInter;
 import live.midreamsheep.frame.scanner.annotation.handler.ExecuteHandler;
 
 import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 
 import static java.awt.Toolkit.getDefaultToolkit;
@@ -33,12 +35,11 @@ public class SubmitATask implements ExecuteHandlerInter {
             }
             shortBuf[2] = 0x03;
             //传输元数据
-            SocketChannelStatic.socketChannel.write(ByteBuffer.wrap(shortBuf));
+            SocketChannelStatic.send(shortBuf);
             //传输文本
-            SocketChannelStatic.socketChannel.write(ByteBuffer.wrap(data));
-        } catch (Exception e) {
-            e.printStackTrace();
-            ApplicationStarter.tryConnect();
+            SocketChannelStatic.send(data);
+        } catch (IOException | UnsupportedFlavorException e) {
+            throw new RuntimeException(e);
         }
     }
 

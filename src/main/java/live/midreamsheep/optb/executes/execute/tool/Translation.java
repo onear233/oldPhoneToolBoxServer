@@ -31,9 +31,9 @@ public class Translation implements ExecuteHandlerInter {
             shortBuf[0] = (byte) (data.length >> 8);
             shortBuf[1] = (byte) (data.length);
             //传输元数据
-            SocketChannelStatic.socketChannel.write(ByteBuffer.wrap(shortBuf));
+            SocketChannelStatic.send(shortBuf);
             //传输文本
-            SocketChannelStatic.socketChannel.write(ByteBuffer.wrap(data));
+            SocketChannelStatic.send(data);
             System.out.println("    传输完毕");
         } catch (UnsupportedFlavorException | IOException e) {
             e.printStackTrace();

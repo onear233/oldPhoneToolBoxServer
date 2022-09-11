@@ -14,13 +14,8 @@ import java.nio.ByteBuffer;
 public class BackHandler implements ExecuteHandlerInter, ExecuteInit {
     @Override
     public void execute() {
-        try {
-            ExecutesController.isRunning = false;
-            SocketChannelStatic.socketChannel.write(ByteBuffer.wrap(new byte[]{0x00,0x00,0x01}));
-        } catch (IOException e) {
-            e.printStackTrace();
-            ApplicationStarter.tryConnect();
-        }
+        ExecutesController.isRunning = false;
+        SocketChannelStatic.send(new byte[]{0x00,0x00,0x01});
     }
 
     @Override

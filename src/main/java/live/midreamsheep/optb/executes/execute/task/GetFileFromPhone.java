@@ -33,7 +33,6 @@ public class GetFileFromPhone implements ExecuteHandlerInter {
                 DownloadFile();
             } catch (IOException e) {
                 e.printStackTrace();
-                ApplicationStarter.tryConnect();
             }
         }).start();
     }
@@ -47,8 +46,8 @@ public class GetFileFromPhone implements ExecuteHandlerInter {
             lengthBytes[i] = (byte) (((short)data.length >>> offset) & 0xff);
         }
         lengthBytes[2] = 0x04;
-        SocketChannelStatic.socketChannel.write(ByteBuffer.wrap(lengthBytes));
-        SocketChannelStatic.socketChannel.write(ByteBuffer.wrap(data));
+        SocketChannelStatic.send(lengthBytes);
+        SocketChannelStatic.send(data);
     }
 
     private void DownloadFile(){
@@ -68,7 +67,6 @@ public class GetFileFromPhone implements ExecuteHandlerInter {
             isRunning = false;
         }catch (IOException e){
             e.printStackTrace();
-            ApplicationStarter.tryConnect();
         }
     }
     private void DownloadAFile(SocketChannel socket) throws IOException {

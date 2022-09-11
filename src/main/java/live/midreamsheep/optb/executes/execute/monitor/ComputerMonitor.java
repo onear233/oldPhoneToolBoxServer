@@ -17,11 +17,7 @@ import java.util.concurrent.TimeUnit;
 public class ComputerMonitor implements ExecuteHandlerInter {
     @Override
     public void execute() {
-        try {
-            SocketChannelStatic.socketChannel.write(ByteBuffer.wrap(new byte[]{0x00,0x00,0x02}));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        SocketChannelStatic.send(new byte[]{0x00,0x00,0x02});
         new Thread(()-> {
             ExecutesController.isRunning = true;
             try {

@@ -13,12 +13,7 @@ public class MonitorTasks implements ExecuteHandlerInter {
 
     @Override
     public void execute()  {
-        try {
-            SocketChannelStatic.socketChannel.write(ByteBuffer.wrap(new byte[]{0x00,0x00,0x03}));
-        } catch (IOException e) {
-            e.printStackTrace();
-            ApplicationStarter.tryConnect();
-        }
+        SocketChannelStatic.send(new byte[]{0x00,0x00,0x03});
     }
 
 }

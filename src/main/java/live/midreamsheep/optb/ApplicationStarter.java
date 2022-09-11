@@ -13,12 +13,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.InetSocketAddress;
 import java.nio.channels.SocketChannel;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ApplicationStarter {
 
-    public static boolean isFix = false;
+    public static volatile boolean isFix = false;
 
     public static void starter(Class<?> config) throws IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, NativeHookException {
         //解析配置类
@@ -37,9 +38,6 @@ public class ApplicationStarter {
     }
 
     private static void startListener() throws NativeHookException {
-        Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
-        logger.setLevel(Level.OFF);
-        logger.setUseParentHandlers(false);
         GlobalScreen.addNativeKeyListener(new Listener());
         GlobalScreen.registerNativeHook();
     }
@@ -54,6 +52,11 @@ public class ApplicationStarter {
                 }
             } catch (IOException e) {
                 Logger.getLogger(ApplicationStarter.class.getName()).severe("连接建立失败 错误信息：" + e.getMessage());
+            }
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
         }
     }
