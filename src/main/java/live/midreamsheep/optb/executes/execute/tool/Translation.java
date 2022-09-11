@@ -8,7 +8,6 @@ import live.midreamsheep.frame.scanner.annotation.handler.ExecuteHandler;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 
 import static java.awt.Toolkit.getDefaultToolkit;
 

@@ -1,6 +1,5 @@
 package live.midreamsheep.optb.executes.execute.task;
 
-import live.midreamsheep.optb.ApplicationStarter;
 import live.midreamsheep.optb.SocketChannelStatic;
 import live.midreamsheep.optb.executes.ExecuteHandlerInter;
 import live.midreamsheep.frame.scanner.annotation.handler.ExecuteHandler;
@@ -8,7 +7,6 @@ import live.midreamsheep.frame.scanner.annotation.handler.ExecuteHandler;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 
 import static java.awt.Toolkit.getDefaultToolkit;
 

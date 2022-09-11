@@ -14,7 +14,6 @@ import java.net.InetSocketAddress;
 import java.nio.channels.SocketChannel;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ApplicationStarter {
